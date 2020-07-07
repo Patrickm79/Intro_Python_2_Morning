@@ -15,7 +15,21 @@ losses = 0
 ties = 0
 
 # keep all of this going in an infitnite loop until the user decies to quit
+# return 0 to indicate a tie, return 1 to indicate user won, return -1 to indicate the computer won
+def compare_choices(player_choice, computer_choice):
+    if player_choice == computer_choice:
+        return 0
+    # player wins
+    elif (player_choice == "rock" and computer_choice == "scissors") \
+        or (player_choice == "scissors" and computer_choice == "paper") \
+        or (player_choice == "paper" and computer_choice == "rock"):
+        return 1
+    # player loses
+    else: 
+        return -1
 
+
+possible_choices = ["rock", "paper", "scissors"]
 while True:
 
     # User will specify their choice or can type "quit" in order to exit the program
@@ -26,51 +40,32 @@ while True:
     if users_choice == "quit":
         print("See you next time")
         break
+    elif users_choice not in possible_choices:
+        print("I don't understand that")
+        continue
+
     # Program also needs to specify its choice
         # How does the program specify its choice
         # Just have it randomly pick a choice
         # Use Python's random.choice function
-    possible_choices = ["rock", "paper", "scissors"]
+    
     programs_choice = random.choice(possible_choices)
     print(f"Program picked {programs_choice}")
-    print(f"You picked {users_choice}")
-
+    
     # Once both choices are made, compare them via rules to see who won
         # How do we do the comparison?
         # use if statments
-    if users_choice == "rock":
-        if programs_choice == "rock":
-            print("A tie!")
-            ties += 1
-        elif programs_choice == "paper":
-            print("Program won!")
-            losses += 1
-        else:
-            print("You win!")
-            wins += 1
-    elif users_choice == "paper":
-        if programs_choice == "paper":
-            print("A tie!")
-            ties += 1
-        elif programs_choice == "rock":
-            print("Program won!")
-            losses += 1
-        else:
-            print("You win!")
-            wins += 1
-    elif users_choice == "scissors":
-        if programs_choice == "scissors":
-            print("A tie!")
-            ties += 1
-        elif programs_choice == "rock":
-            print("Program won!")
-            losses += 1
-        else:
-            print("You win!")
-            wins += 1
+
+    result = compare_choices(users_choice, programs_choice)
+
+    if result == 0:
+        print("A tie!")
+        ties += 1
+    elif result == 1:
+        print("You won")
+        wins += 1
     else:
-        print("I don't understand")
-        # go on to the next iteration of the game loop
-        continue
+        print("Computer won!")
+        losses += 1
 
     print(f"Wins: {wins}, ties: {ties}, losses: {losses}")
